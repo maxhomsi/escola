@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Interativa do Max - Caderno de Atividades</title>
+    <meta name="description" content="Explore atividades divertidas de tempos verbais, caligrafia, adivinhação e polímetros em um caderno interativo.">
+    
+    <script src="script.js" defer></script>
+    <style>
+        /* 1. FONTES E CONFIGURAÇÕES GLOBAIS */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Nunito:wght@800&family=Caveat:wght@700&display=swap');
+
+        :root {
+            --font-heading: 'Nunito', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-cursive: 'Caveat', cursive;
+            --color-paper: #ffffff;
+            --color-cork: #e3d8c4;
+            --color-spiral: #cccccc;
+            --color-lines-blue: #eaf2f8;
+            --color-lines-red: #fadbd8;
+            --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
+            --shadow-soft: 0 4px 12px rgba(0,0,0,0.1);
+            --transition-speed: 0.3s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--color-cork);
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
+            padding: 2rem 1rem;
+            transition: opacity 0.4s ease-in-out;
+            overflow: hidden;
+        }
+        
+        body.fade-out { opacity: 0; }
+
+        /* 2. LAYOUT DO CADERNO */
+        .notebook {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1500px;
+            aspect-ratio: 16 / 9.5;
+            background-color: var(--color-paper);
+            box-shadow: var(--shadow-strong);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .notebook::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            transform: translateX(-50%);
+            background: repeating-linear-gradient(var(--color-paper) 0px, var(--color-paper) 18px, var(--color-spiral) 18px, var(--color-spiral) 22px);
+            z-index: 2;
+        }
+
+        .page {
+            padding: 3rem 4rem;
+            background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
+            background-size: 100% 2.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .left-page {
+            padding-left: 5rem;
+            justify-content: flex-start;
+        }
+        
+        .left-page::before {
+            content: '';
+            position: absolute;
+            left: 3.5rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: var(--color-lines-red);
+        }
+        
+        /* FONTES AUMENTADAS */
+        .left-page h1 {
+            font-family: var(--font-cursive);
+            font-size: clamp(3rem, 6vw, 5rem); /* Aumentado */
+            line-height: 1.1;
+            color: #111;
+            margin-top: 2.5rem;
+            min-height: 120px;
+        }
+        
+        .subtitle {
+            font-family: var(--font-cursive);
+            color: #111;
+            margin-top: 1.5rem; /* Mais espaço */
+        }
+
+        .subtitle .intro-line {
+            font-size: 2.5rem; /* Aumentado */
+            font-weight: 700;
+        }
+
+        .subtitle .description {
+            font-size: 2rem; /* Aumentado */
+            line-height: 1.4;
+            margin-top: 1rem;
+        }
+
+        .right-page {
+            justify-content: center;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        /* 3. BOTÕES DE ATIVIDADE */
+        .activity-card {
+            background-color: var(--color-paper);
+            border-radius: 12px;
+            text-decoration: none;
+            padding: 1.5rem;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid #f0f0f0;
+            aspect-ratio: 1 / 1;
+        }
+                
+        .activity-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 20;
+        }
+
+        .card-image {
+            width: 65%;
+            flex-grow: 1;
+            margin-bottom: 1rem;
+        }
+
+        .card-image svg { width: 100%; height: 100%; }
+        
+        .card-text {
+            font-family: var(--font-body);
+            font-weight: 700;
+            color: #343a40;
+            font-size: 1.25rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        /* 4. RODAPÉ E RESPONSIVIDADE */
+        .site-footer {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            color: rgba(0,0,0,0.5);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .site-footer a { color: rgba(0,0,0,0.7); }
+        
+        @media (max-width: 1200px) {
+            body { height: auto; overflow: auto; }
+            .notebook {
+                grid-template-columns: 1fr;
+                aspect-ratio: auto;
+                height: auto;
+                max-width: 700px;
+                margin: 2rem auto;
+            }
+            .notebook::before { display: none; }
+            .left-page { padding: 2rem; border-bottom: 2px dashed #ccc; }
+            .left-page::before { display: none; }
+            .left-page h1 { font-size: 3rem; margin-top: 0; min-height: auto; }
+            .subtitle .intro-line { font-size: 2rem; }
+            .subtitle .description { font-size: 1.6rem; }
+            .right-page { padding: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+             .activities-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+             }
+             .left-page h1 { font-size: 2.5rem; }
+             .card-text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <main class="notebook fade-in">
+        <div class="page left-page">
+            <h1 id="main-title">Sala de Aula Divertida</h1>
+            <div class="subtitle">
+                <p class="intro-line">Hora de começar a aventura!</p>
+                <p class="description">
+                    Este caderno é especial: cada atividade é um desafio que vai testar sua curiosidade e criatividade.<br>
+                    Escolha a sua preferida e descubra como aprender pode ser tão divertido quanto brincar!
+                </p>
+            </div>
+        </div>
+        <div class="page right-page">
+            <nav class="activities-grid">
+                <a href="https://maxhomsi.github.io/temposverbais/" class="activity-card">
+                    <div class="card-image">
+                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="68" y="10" width="14" height="130" fill="#a0522d" rx="4"/><g style="font-family: var(--font-body); font-size: 10px; fill: #4a2e00; text-anchor: middle; font-weight: bold;"><path d="M 20 45 L 70 45 L 85 55 L 70 65 L 20 65 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="47" y="58">PRESENTE</text><path d="M 80 70 L 130 70 L 115 80 L 130 90 L 80 90 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="105" y="83">PRETÉRITO</text><path d="M 20 95 L 70 95 L 85 105 L 70 115 L 20 115 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="45" y="108">FUTURO</text></g></svg>
+                    </div>
+                    <span class="card-text">Tempos Verbais</span>
+                </a>
+                <a href="https://maxhomsi.github.io/polimetros/" class="activity-card">
+                    <div class="card-image">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="rotate(10 50 50)"><path d="M50 10 L85 70 L15 70 Z" fill="#2a9d8f" opacity="0.9" /><circle cx="65" cy="60" r="25" fill="#e9c46a" opacity="0.9" /><rect x="15" y="45" width="40" height="40" fill="#f4a261" opacity="0.9" transform="rotate(-15 35 65)"/></g></svg>
+                    </div>
+                    <span class="card-text">Polímetros</span>
+                </a>
+                <a href="https://maxhomsi.github.io/portugues" class="activity-card">
+                    <div class="card-image">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <g>
+                                <path d="M 49.999 55.999 C 38.953 55.999 29.999 64.953 29.999 75.999 L 29.999 85.999 L 69.999 85.999 L 69.999 75.999 C 69.999 64.953 61.045 55.999 49.999 55.999 Z" fill="#fdebd0" stroke="#555" stroke-width="2"/>
+                                <circle cx="50" cy="40" r="20" fill="#fdebd0" stroke="#555" stroke-width="2"/>
+                                <path d="M35,28 C40,15 60,15 65,28" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="43" cy="42" r="3" fill="#555"/>
+                                <circle cx="57" cy="42" r="3" fill="#555"/>
+                                <text x="50" y="25" font-size="24" font-family="var(--font-heading)" fill="#e74c3c" text-anchor="middle" font-weight="bold">?</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="card-text">Qual a Gravura?</span>
+                </a>
+                <a href="https://maxhomsi.github.io/portugues2" class="activity-card">
+                    <div class="card-image">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="10" y1="35" x2="90" y2="35" stroke="var(--color-lines-blue)" stroke-width="2" /><line x1="10" y1="70" x2="90" y2="70" stroke="var(--color-lines-blue)" stroke-width="2" /><path d="M20 65 C 15 35, 45 35, 50 50 C 55 65, 70 65, 80 45" stroke="#e76f51" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </div>
+                    <span class="card-text">Treine a Caligrafia</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>2025 | Feito com carinho pelo <a href="https://github.com/maxhomsi" target="_blank" rel="noopener noreferrer">Max</a>.</p>
+    </footer>
+
+</body>
+</html>

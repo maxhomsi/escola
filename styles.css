@@ -1,0 +1,179 @@
+/* 1. FONTES E CONFIGURAÇÕES GLOBAIS */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --font-title: 'Fredoka One', cursive;
+    --font-body: 'Roboto', sans-serif;
+    --color-chalkboard: #3d405b;
+    --color-chalk: #f4f1de;
+    --color-wood-frame: #81b29a;
+    --transition-speed: 0.3s;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Define uma base estável */
+}
+
+body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Fundo escolar leve */
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2Y1ZjVlYSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjIiIGZpbGw9IiNhYmNkZTYiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjZjRiYzJhIi8+PHJlY3QgeD0iODAiIHk9IjYwIiB3aWR0aD0iNSIgaGVpZ-aD0iNSIByeD0iMiIgZmlsbD0iIzgyYTBjMiIvPjxwb2x5Z29uIHBvaW50cz0iMjAsNzAgMjUsODAgMTUsODAiIGZpbGw9IiNlMDc3NjIiLz48L3N2Zz4=');
+    background-size: 40px;
+    background-color: #f0ead2;
+    transition: opacity 0.4s ease-in-out;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+/* 2. LAYOUT PRINCIPAL E LOUSA */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e76f51;
+    color: white;
+    padding: 10px 20px;
+    z-index: 1000;
+    transition: top 0.3s ease;
+    border-radius: 0 0 8px 8px;
+    font-weight: bold;
+}
+.skip-link:focus {
+    top: 0;
+}
+
+.classroom-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem; /* Padding horizontal para telas pequenas */
+}
+
+.blackboard {
+    background-color: var(--color-chalkboard);
+    color: var(--color-chalk);
+    border: 15px solid var(--color-wood-frame);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(0,0,0,0.4);
+    padding: 2rem;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.blackboard h1 {
+    font-family: var(--font-title);
+    font-size: 2.8rem; /* Tamanho mais controlado */
+    text-shadow: 2px 2px 0px #e76f51;
+    margin-bottom: 0.5rem;
+}
+
+.blackboard p {
+    font-size: 1.1rem; /* Tamanho mais controlado */
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+
+/* 3. BOTÕES DE ATIVIDADE */
+.activities-nav {
+    display: grid;
+    /* Grid responsivo e seguro */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.5rem;
+}
+
+.activity-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    text-decoration: none;
+    padding: 1rem;
+    transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    min-height: 180px; /* Altura mínima para consistência */
+}
+
+.activity-button:hover, .activity-button:focus {
+    transform: translateY(-8px) scale(1.03);
+    background-color: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+.button-image {
+    width: 100%;
+    height: 90px; /* Altura fixa para as imagens */
+    margin-bottom: 0.75rem;
+}
+
+.button-image svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que o SVG caiba no espaço */
+}
+
+.button-text {
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--color-chalk);
+    font-size: 1rem;
+    margin-top: auto; /* Alinha o texto na base */
+}
+
+
+/* 4. ANIMAÇÕES, RODAPÉ E MEDIA QUERIES */
+.fade-in {
+    animation: fadeInAnimation 0.8s ease forwards;
+    opacity: 0;
+}
+.fade-in:nth-child(1) { animation-delay: 0.2s; }
+.fade-in:nth-child(2) { animation-delay: 0.4s; }
+.fade-in:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeInAnimation {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.site-footer {
+    padding: 1rem;
+    text-align: center;
+    color: #6c584c;
+    font-size: 0.9rem;
+}
+
+.site-footer a {
+    color: #a98467;
+    font-weight: bold;
+    text-decoration: none;
+}
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Ajustes para telas maiores */
+@media (min-width: 768px) {
+    .blackboard h1 {
+        font-size: 3.5rem;
+    }
+    .blackboard p {
+        font-size: 1.2rem;
+    }
+}
