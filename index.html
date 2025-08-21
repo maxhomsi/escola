@@ -6,9 +6,213 @@
     <title>Escola Interativa do Max - Caderno de Atividades</title>
     <meta name="description" content="Explore atividades divertidas de tempos verbais, caligrafia, adivinhação e polímetros em um caderno interativo.">
     
-    <link rel="stylesheet" href="style.css">
-    
     <script src="script.js" defer></script>
+    <style>
+        /* 1. FONTES E CONFIGURAÇÕES GLOBAIS */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Caveat:wght@700&display=swap');
+
+        :root {
+            --font-cursive: 'Caveat', cursive;
+            --font-body: 'Poppins', sans-serif;
+            --color-paper: #ffffff;
+            --color-cork: #e3d8c4;
+            --color-spiral-hole: #e0e0e0;
+            --color-lines-blue: #eaf2f8;
+            --color-lines-red: #fadbd8;
+            --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
+            --transition-speed: 0.3s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: var(--font-body);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-cork);
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
+            transition: opacity 0.4s ease-in-out;
+            overflow: hidden;
+        }
+        
+        body.fade-out { opacity: 0; }
+        
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 2rem 1rem;
+            min-height: 0;
+        }
+
+        /* 2. LAYOUT DO CADERNO */
+        .notebook-container {
+            display: flex;
+            width: 90vw;
+            max-width: 1600px;
+            height: 95%;
+            max-height: 85vh;
+            box-shadow: var(--shadow-strong); /* SOMBRA CORRIGIDA */
+            border-radius: 8px;
+        }
+
+        .page {
+            background-color: var(--color-paper);
+            background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
+            background-size: 100% 2.5rem;
+            padding: 3rem 4rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .left-page {
+            border-radius: 10px 0 0 10px;
+            padding-left: 5rem;
+            justify-content: flex-start;
+        }
+        
+        .left-page::before {
+            content: '';
+            position: absolute;
+            left: 3.5rem;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: var(--color-lines-red);
+        }
+        
+        .right-page {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .spiral {
+            flex: 0 0 30px;
+            background: repeating-linear-gradient(var(--color-spiral-hole) 0px, var(--color-spiral-hole) 25px, transparent 25px, transparent 40px);
+            background-size: 100% 40px;
+        }
+        
+        /* 3. CONTEÚDO DAS PÁGINAS */
+        .left-page h1 {
+            font-family: var(--font-cursive);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            color: #111;
+            margin-top: 2rem;
+            /* O min-height será controlado pelo JS para evitar o "salto" */
+        }
+        
+        .subtitle {
+            font-family: var(--font-cursive);
+            color: #333;
+            margin-top: 1rem;
+        }
+
+        .subtitle .intro-line {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+        }
+
+        .subtitle .description {
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
+            line-height: 1.4;
+            margin-top: 1rem;
+        }
+        
+        .activities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .activity-card {
+            background-color: var(--color-paper);
+            border-radius: 12px;
+            text-decoration: none;
+            padding: 1.5rem;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+            aspect-ratio: 1 / 1;
+        }
+                
+        .activity-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .card-image {
+            width: 55%;
+            flex-shrink: 0;
+            margin-bottom: 1rem;
+        }
+
+        .card-image svg { width: 100%; height: 100%; }
+        
+        .card-text {
+            font-family: var(--font-body);
+            font-weight: 500;
+            color: #343a40;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            text-align: center;
+        }
+        
+        /* 4. RODAPÉ E RESPONSIVIDADE */
+        .site-footer {
+            flex-shrink: 0;
+            padding: 1rem;
+            text-align: center;
+            color: rgba(0,0,0,0.5);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .site-footer a { color: rgba(0,0,0,0.7); }
+        
+        @media (max-width: 1024px) {
+            body { height: auto; overflow: auto; }
+            .main-content { padding: 1rem; }
+            .notebook-container {
+                flex-direction: column;
+                aspect-ratio: auto;
+                height: auto;
+                width: 100%;
+                max-width: 700px;
+                max-height: none;
+            }
+            .spiral { display: none; }
+            .left-page { border-radius: 10px 10px 0 0; border-bottom: 2px dashed var(--color-spiral); }
+            .right-page { border-radius: 0 0 10px 10px; }
+            .page { padding: 2rem; }
+            .left-page { padding-left: 2rem; }
+            .left-page::before { display: none; }
+            .left-page h1 { font-size: 2.5rem; white-space: normal; margin-top: 0; min-height: auto; }
+            .subtitle .intro-line { font-size: 1.6rem; }
+            .subtitle .description { font-size: 1.4rem; }
+        }
+
+        @media (max-width: 600px) {
+             .activities-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+             }
+        }
+    </style>
 </head>
 <body>
     <main class="main-content">
