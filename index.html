@@ -20,6 +20,7 @@
             --color-lines-blue: #eaf2f8;
             --color-lines-red: #fadbd8;
             --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
+            --shadow-soft: 0 4px 12px rgba(0,0,0,0.1);
             --transition-speed: 0.3s;
         }
 
@@ -33,56 +34,59 @@
 
         body {
             font-family: var(--font-body);
-            min-height: 100vh;
+            height: 100vh; /* Altura fixa para caber na tela */
             display: flex;
-            flex-direction: column; /* Essencial para o rodapé fixo */
+            flex-direction: column;
             background-color: var(--color-cork);
             background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
             transition: opacity 0.4s ease-in-out;
+            overflow: hidden; /* Garante que não haja barra de rolagem */
         }
         
         body.fade-out { opacity: 0; }
         
         .main-content {
-            flex-grow: 1; /* Faz esta área crescer e empurrar o rodapé para baixo */
+            flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
             padding: 2rem 1rem;
+            min-height: 0; /* Correção para flexbox */
         }
 
         /* 2. LAYOUT DO CADERNO */
         .notebook-container {
             display: flex;
-            width: 100%;
-            max-width: 90vw;
-            aspect-ratio: 16 / 9;
-            max-height: 90vh;
-            filter: drop-shadow(var(--shadow-strong));
+            width: 90vw;
+            max-width: 1600px;
+            height: 95%; /* Altura relativa ao container principal */
+            max-height: 85vh;
+            box-shadow: var(--shadow-strong); /* SOMBRA CORRIGIDA */
+            border-radius: 8px;
         }
 
         .page {
             background-color: var(--color-paper);
             background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
             background-size: 100% 2.5rem;
-            padding: 3rem 4rem;
+            padding: 2rem 3rem;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center; /* Centraliza o conteúdo verticalmente */
             position: relative;
         }
         
         .left-page {
             border-radius: 10px 0 0 10px;
-            padding-left: 5rem;
+            padding-left: 4rem;
         }
         
         .left-page::before {
             content: '';
             position: absolute;
-            left: 3.5rem;
+            left: 3rem;
             top: 0;
             bottom: 0;
             width: 1px;
@@ -102,10 +106,9 @@
         /* 3. CONTEÚDO DAS PÁGINAS */
         .left-page h1 {
             font-family: var(--font-cursive);
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             line-height: 1;
             color: #111;
-            margin-top: 2rem;
             min-height: 90px;
             white-space: nowrap;
         }
@@ -117,23 +120,16 @@
         }
 
         .subtitle .intro-line {
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
             font-weight: 700;
         }
 
         .subtitle .description {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             line-height: 1.4;
             margin-top: 1rem;
         }
         
-        .right-page {
-            padding: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         .activities-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -157,9 +153,8 @@
         }
                 
         .activity-card:hover {
-            transform: translateY(-8px); /* Efeito de levitar */
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12); /* Sombra mais forte */
-            /* REMOVIDA A MUDANÇA DE COR DE FUNDO */
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .card-image {
@@ -174,13 +169,13 @@
             font-family: var(--font-body);
             font-weight: 500;
             color: #343a40;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             text-align: center;
         }
         
         /* 4. RODAPÉ E RESPONSIVIDADE */
         .site-footer {
-            flex-shrink: 0; /* Garante que o rodapé não encolha */
+            flex-shrink: 0;
             padding: 1rem;
             text-align: center;
             color: rgba(0,0,0,0.5);
@@ -191,16 +186,14 @@
         .site-footer a { color: rgba(0,0,0,0.7); }
         
         @media (max-width: 1024px) {
-            body { overflow: auto; }
-            .main-content {
-                flex-grow: 0; /* Permite que o conteúdo determine a altura */
-            }
+            body { height: auto; overflow: auto; }
+            .main-content { padding: 1rem; }
             .notebook-container {
                 flex-direction: column;
                 aspect-ratio: auto;
                 height: auto;
+                width: 100%;
                 max-width: 700px;
-                margin: 0 auto;
                 max-height: none;
             }
             .spiral { display: none; }
@@ -219,7 +212,6 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
              }
-             .card-text { font-size: 1.1rem; }
         }
     </style>
 </head>
