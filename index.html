@@ -20,7 +20,6 @@
             --color-lines-blue: #eaf2f8;
             --color-lines-red: #fadbd8;
             --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
-            --shadow-soft: 0 4px 12px rgba(0,0,0,0.1);
             --transition-speed: 0.3s;
         }
 
@@ -34,13 +33,13 @@
 
         body {
             font-family: var(--font-body);
-            height: 100vh; /* Altura fixa para caber na tela */
+            height: 100vh;
             display: flex;
             flex-direction: column;
             background-color: var(--color-cork);
             background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
             transition: opacity 0.4s ease-in-out;
-            overflow: hidden; /* Garante que não haja barra de rolagem */
+            overflow: hidden;
         }
         
         body.fade-out { opacity: 0; }
@@ -52,7 +51,7 @@
             justify-content: center;
             width: 100%;
             padding: 2rem 1rem;
-            min-height: 0; /* Correção para flexbox */
+            min-height: 0;
         }
 
         /* 2. LAYOUT DO CADERNO */
@@ -60,7 +59,7 @@
             display: flex;
             width: 90vw;
             max-width: 1600px;
-            height: 95%; /* Altura relativa ao container principal */
+            height: 95%;
             max-height: 85vh;
             box-shadow: var(--shadow-strong); /* SOMBRA CORRIGIDA */
             border-radius: 8px;
@@ -70,23 +69,24 @@
             background-color: var(--color-paper);
             background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
             background-size: 100% 2.5rem;
-            padding: 2rem 3rem;
+            padding: 3rem 4rem;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centraliza o conteúdo verticalmente */
+            justify-content: center;
             position: relative;
         }
         
         .left-page {
             border-radius: 10px 0 0 10px;
-            padding-left: 4rem;
+            padding-left: 5rem;
+            justify-content: flex-start;
         }
         
         .left-page::before {
             content: '';
             position: absolute;
-            left: 3rem;
+            left: 3.5rem;
             top: 0;
             bottom: 0;
             width: 1px;
@@ -106,11 +106,11 @@
         /* 3. CONTEÚDO DAS PÁGINAS */
         .left-page h1 {
             font-family: var(--font-cursive);
-            font-size: clamp(2.3rem, 5vw, 4.2rem);
-            line-height: 1;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
             color: #111;
-            min-height: 90px;
-            white-space: nowrap;
+            margin-top: 2rem;
+            /* O min-height será controlado pelo JS para evitar o "salto" */
         }
         
         .subtitle {
@@ -120,12 +120,12 @@
         }
 
         .subtitle .intro-line {
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
             font-weight: 700;
         }
 
         .subtitle .description {
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-size: clamp(1.5rem, 2.5vw, 2rem);
             line-height: 1.4;
             margin-top: 1rem;
         }
@@ -181,7 +181,6 @@
             color: rgba(0,0,0,0.5);
             font-size: 0.9rem;
             font-weight: bold;
-            width: 100%;
         }
         .site-footer a { color: rgba(0,0,0,0.7); }
         
