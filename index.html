@@ -35,26 +35,31 @@
             font-family: var(--font-body);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* Essencial para o rodapé fixo */
             background-color: var(--color-cork);
-            padding: 2rem 1rem;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
             transition: opacity 0.4s ease-in-out;
-            overflow: hidden;
         }
         
         body.fade-out { opacity: 0; }
+        
+        .main-content {
+            flex-grow: 1; /* Faz esta área crescer e empurrar o rodapé para baixo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 2rem 1rem;
+        }
 
-        /* 2. NOVA ESTRUTURA DO CADERNO */
+        /* 2. LAYOUT DO CADERNO */
         .notebook-container {
             display: flex;
-            flex-direction: row;
             width: 100%;
-            max-width: 90vw; /* Ocupa 90% da largura da tela */
+            max-width: 90vw;
             aspect-ratio: 16 / 9;
             max-height: 90vh;
-            filter: drop-shadow(var(--shadow-strong)); /* Sombra mais realista */
+            filter: drop-shadow(var(--shadow-strong));
         }
 
         .page {
@@ -62,10 +67,10 @@
             background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
             background-size: 100% 2.5rem;
             padding: 3rem 4rem;
-            flex: 1; /* Ocupa o espaço disponível */
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Alinha conteúdo no topo */
+            justify-content: flex-start;
             position: relative;
         }
         
@@ -89,7 +94,7 @@
         }
         
         .spiral {
-            flex: 0 0 30px; /* Largura fixa, não encolhe nem estica */
+            flex: 0 0 30px;
             background: repeating-linear-gradient(var(--color-spiral-hole) 0px, var(--color-spiral-hole) 25px, transparent 25px, transparent 40px);
             background-size: 100% 40px;
         }
@@ -152,9 +157,9 @@
         }
                 
         .activity-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-            z-index: 20;
+            transform: translateY(-8px); /* Efeito de levitar */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12); /* Sombra mais forte */
+            /* REMOVIDA A MUDANÇA DE COR DE FUNDO */
         }
 
         .card-image {
@@ -175,16 +180,21 @@
         
         /* 4. RODAPÉ E RESPONSIVIDADE */
         .site-footer {
-            margin-top: 2rem;
+            flex-shrink: 0; /* Garante que o rodapé não encolha */
+            padding: 1rem;
             text-align: center;
             color: rgba(0,0,0,0.5);
             font-size: 0.9rem;
             font-weight: bold;
+            width: 100%;
         }
         .site-footer a { color: rgba(0,0,0,0.7); }
         
         @media (max-width: 1024px) {
-            body { height: auto; overflow: auto; justify-content: flex-start; }
+            body { overflow: auto; }
+            .main-content {
+                flex-grow: 0; /* Permite que o conteúdo determine a altura */
+            }
             .notebook-container {
                 flex-direction: column;
                 aspect-ratio: auto;
@@ -214,56 +224,58 @@
     </style>
 </head>
 <body>
-    <div class="notebook-container fade-in">
-        <div class="page left-page">
-            <h1 id="main-title">Sala de Aula Divertida</h1>
-            <div class="subtitle">
-                <p class="intro-line">Hora de começar a aventura!</p>
-                <p class="description">
-                    Este caderno é especial: cada atividade é um desafio que vai testar sua curiosidade e criatividade.<br>
-                    Escolha a sua preferida e descubra como aprender pode ser tão divertido quanto brincar!
-                </p>
+    <main class="main-content">
+        <div class="notebook-container fade-in">
+            <div class="page left-page">
+                <h1 id="main-title">Sala de Aula Divertida</h1>
+                <div class="subtitle">
+                    <p class="intro-line">Hora de começar a aventura!</p>
+                    <p class="description">
+                        Este caderno é especial: cada atividade é um desafio que vai testar sua curiosidade e criatividade.<br>
+                        Escolha a sua preferida e descubra como aprender pode ser tão divertido quanto brincar!
+                    </p>
+                </div>
+            </div>
+            <div class="spiral"></div>
+            <div class="page right-page">
+                <nav class="activities-grid">
+                    <a href="https://maxhomsi.github.io/temposverbais/" class="activity-card">
+                        <div class="card-image">
+                            <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="68" y="10" width="14" height="130" fill="#a0522d" rx="4"/><g style="font-family: var(--font-body); font-size: 10px; fill: #4a2e00; text-anchor: middle; font-weight: bold;"><path d="M 20 45 L 70 45 L 85 55 L 70 65 L 20 65 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="47" y="58">PRESENTE</text><path d="M 80 70 L 130 70 L 115 80 L 130 90 L 80 90 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="105" y="83">PRETÉRITO</text><path d="M 20 95 L 70 95 L 85 105 L 70 115 L 20 115 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="45" y="108">FUTURO</text></g></svg>
+                        </div>
+                        <span class="card-text">Tempos Verbais</span>
+                    </a>
+                    <a href="https://maxhomsi.github.io/polimetros/" class="activity-card">
+                        <div class="card-image">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="rotate(10 50 50)"><path d="M50 10 L85 70 L15 70 Z" fill="#2a9d8f" opacity="0.9" /><circle cx="65" cy="60" r="25" fill="#e9c46a" opacity="0.9" /><rect x="15" y="45" width="40" height="40" fill="#f4a261" opacity="0.9" transform="rotate(-15 35 65)"/></g></svg>
+                        </div>
+                        <span class="card-text">Polímetros</span>
+                    </a>
+                    <a href="https://maxhomsi.github.io/portugues" class="activity-card">
+                        <div class="card-image">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <g>
+                                    <path d="M 49.999 55.999 C 38.953 55.999 29.999 64.953 29.999 75.999 L 29.999 85.999 L 69.999 85.999 L 69.999 75.999 C 69.999 64.953 61.045 55.999 49.999 55.999 Z" fill="#fdebd0" stroke="#555" stroke-width="2"/>
+                                    <circle cx="50" cy="40" r="20" fill="#fdebd0" stroke="#555" stroke-width="2"/>
+                                    <path d="M35,28 C40,15 60,15 65,28" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
+                                    <circle cx="43" cy="42" r="3" fill="#555"/>
+                                    <circle cx="57" cy="42" r="3" fill="#555"/>
+                                    <text x="50" y="25" font-size="24" font-family="var(--font-heading)" fill="#e74c3c" text-anchor="middle" font-weight="bold">?</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="card-text">Qual a Gravura?</span>
+                    </a>
+                    <a href="https://maxhomsi.github.io/portugues2" class="activity-card">
+                        <div class="card-image">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="10" y1="35" x2="90" y2="35" stroke="var(--color-lines-blue)" stroke-width="2" /><line x1="10" y1="70" x2="90" y2="70" stroke="var(--color-lines-blue)" stroke-width="2" /><path d="M20 65 C 15 35, 45 35, 50 50 C 55 65, 70 65, 80 45" stroke="#e76f51" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                        </div>
+                        <span class="card-text">Treine a Caligrafia</span>
+                    </a>
+                </nav>
             </div>
         </div>
-        <div class="spiral"></div>
-        <div class="page right-page">
-            <nav class="activities-grid">
-                <a href="https://maxhomsi.github.io/temposverbais/" class="activity-card">
-                    <div class="card-image">
-                        <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="68" y="10" width="14" height="130" fill="#a0522d" rx="4"/><g style="font-family: var(--font-body); font-size: 10px; fill: #4a2e00; text-anchor: middle; font-weight: bold;"><path d="M 20 45 L 70 45 L 85 55 L 70 65 L 20 65 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="47" y="58">PRESENTE</text><path d="M 80 70 L 130 70 L 115 80 L 130 90 L 80 90 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="105" y="83">PRETÉRITO</text><path d="M 20 95 L 70 95 L 85 105 L 70 115 L 20 115 Z" fill="#fde4cf" stroke="#a0522d" stroke-width="2"/><text x="45" y="108">FUTURO</text></g></svg>
-                    </div>
-                    <span class="card-text">Tempos Verbais</span>
-                </a>
-                <a href="https://maxhomsi.github.io/polimetros/" class="activity-card">
-                    <div class="card-image">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g transform="rotate(10 50 50)"><path d="M50 10 L85 70 L15 70 Z" fill="#2a9d8f" opacity="0.9" /><circle cx="65" cy="60" r="25" fill="#e9c46a" opacity="0.9" /><rect x="15" y="45" width="40" height="40" fill="#f4a261" opacity="0.9" transform="rotate(-15 35 65)"/></g></svg>
-                    </div>
-                    <span class="card-text">Polímetros</span>
-                </a>
-                <a href="https://maxhomsi.github.io/portugues" class="activity-card">
-                    <div class="card-image">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <g>
-                                <path d="M 49.999 55.999 C 38.953 55.999 29.999 64.953 29.999 75.999 L 29.999 85.999 L 69.999 85.999 L 69.999 75.999 C 69.999 64.953 61.045 55.999 49.999 55.999 Z" fill="#fdebd0" stroke="#555" stroke-width="2"/>
-                                <circle cx="50" cy="40" r="20" fill="#fdebd0" stroke="#555" stroke-width="2"/>
-                                <path d="M35,28 C40,15 60,15 65,28" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round"/>
-                                <circle cx="43" cy="42" r="3" fill="#555"/>
-                                <circle cx="57" cy="42" r="3" fill="#555"/>
-                                <text x="50" y="25" font-size="24" font-family="var(--font-heading)" fill="#e74c3c" text-anchor="middle" font-weight="bold">?</text>
-                            </g>
-                        </svg>
-                    </div>
-                    <span class="card-text">Qual a Gravura?</span>
-                </a>
-                <a href="https://maxhomsi.github.io/portugues2" class="activity-card">
-                    <div class="card-image">
-                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="10" y1="35" x2="90" y2="35" stroke="var(--color-lines-blue)" stroke-width="2" /><line x1="10" y1="70" x2="90" y2="70" stroke="var(--color-lines-blue)" stroke-width="2" /><path d="M20 65 C 15 35, 45 35, 50 50 C 55 65, 70 65, 80 45" stroke="#e76f51" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    </div>
-                    <span class="card-text">Treine a Caligrafia</span>
-                </a>
-            </nav>
-        </div>
-    </div>
+    </main>
 
     <footer class="site-footer">
         <p>2025 | Feito com carinho pelo <a href="https://github.com/maxhomsi" target="_blank" rel="noopener noreferrer">Max</a>.</p>
