@@ -9,19 +9,17 @@
     <script src="script.js" defer></script>
     <style>
         /* 1. FONTES E CONFIGURAÇÕES GLOBAIS */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Nunito:wght@800&family=Caveat:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Caveat:wght@700&display=swap');
 
         :root {
-            --font-heading: 'Nunito', sans-serif;
-            --font-body: 'Poppins', sans-serif;
             --font-cursive: 'Caveat', cursive;
+            --font-body: 'Poppins', sans-serif;
             --color-paper: #ffffff;
             --color-cork: #e3d8c4;
-            --color-spiral: #cccccc;
+            --color-spiral-hole: #e0e0e0;
             --color-lines-blue: #eaf2f8;
             --color-lines-red: #fadbd8;
             --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
-            --shadow-soft: 0 4px 12px rgba(0,0,0,0.1);
             --transition-speed: 0.3s;
         }
 
@@ -41,7 +39,6 @@
             justify-content: center;
             align-items: center;
             background-color: var(--color-cork);
-            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
             padding: 2rem 1rem;
             transition: opacity 0.4s ease-in-out;
             overflow: hidden;
@@ -49,140 +46,136 @@
         
         body.fade-out { opacity: 0; }
 
-        /* 2. LAYOUT DO CADERNO (AUMENTADO) */
-        .notebook {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        /* 2. NOVA ESTRUTURA DO CADERNO */
+        .notebook-container {
+            display: flex;
+            flex-direction: row;
             width: 100%;
-            max-width: 1800px; /* AUMENTADO */
-            aspect-ratio: 16 / 9; /* Ajustado */
-            background-color: var(--color-paper);
-            box-shadow: var(--shadow-strong);
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .notebook::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 30px;
-            transform: translateX(-50%);
-            background: repeating-linear-gradient(var(--color-paper) 0px, var(--color-paper) 18px, var(--color-spiral) 18px, var(--color-spiral) 22px);
-            z-index: 2;
+            max-width: 90vw; /* Ocupa 90% da largura da tela */
+            aspect-ratio: 16 / 9;
+            max-height: 90vh;
+            filter: drop-shadow(var(--shadow-strong)); /* Sombra mais realista */
         }
 
         .page {
-            padding: 4rem 5rem; /* Padding aumentado */
-            background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.9rem, var(--color-lines-blue) 2.9rem, var(--color-lines-blue) 3rem);
-            background-size: 100% 3rem; /* Linhas mais espaçadas */
-            position: relative;
+            background-color: var(--color-paper);
+            background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
+            background-size: 100% 2.5rem;
+            padding: 3rem 4rem;
+            flex: 1; /* Ocupa o espaço disponível */
             display: flex;
             flex-direction: column;
+            justify-content: flex-start; /* Alinha conteúdo no topo */
+            position: relative;
         }
         
         .left-page {
-            padding-left: 6rem;
-            justify-content: flex-start;
+            border-radius: 10px 0 0 10px;
+            padding-left: 5rem;
         }
         
         .left-page::before {
             content: '';
             position: absolute;
-            left: 4rem;
+            left: 3.5rem;
             top: 0;
             bottom: 0;
             width: 1px;
             background-color: var(--color-lines-red);
         }
         
+        .right-page {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .spiral {
+            flex: 0 0 30px; /* Largura fixa, não encolhe nem estica */
+            background: repeating-linear-gradient(var(--color-spiral-hole) 0px, var(--color-spiral-hole) 25px, transparent 25px, transparent 40px);
+            background-size: 100% 40px;
+        }
+        
+        /* 3. CONTEÚDO DAS PÁGINAS */
         .left-page h1 {
             font-family: var(--font-cursive);
-            /* AJUSTADO PARA NÃO QUEBRAR A LINHA */
-            font-size: clamp(3rem, 5.5vw, 5rem);
-            line-height: 1.1;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1;
             color: #111;
-            margin-top: 3rem;
-            min-height: 120px;
-            white-space: nowrap; /* Força linha única */
+            margin-top: 2rem;
+            min-height: 90px;
+            white-space: nowrap;
         }
         
         .subtitle {
             font-family: var(--font-cursive);
-            color: #111;
-            margin-top: 1.5rem;
+            color: #333;
+            margin-top: 1rem;
         }
 
         .subtitle .intro-line {
-            font-size: 2.5rem; /* Aumentado */
+            font-size: 2.2rem;
             font-weight: 700;
         }
 
         .subtitle .description {
-            font-size: 2.2rem; /* Aumentado */
+            font-size: 1.8rem;
             line-height: 1.4;
             margin-top: 1rem;
         }
-
+        
         .right-page {
+            padding: 3rem;
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
 
         .activities-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem; /* Aumentado */
+            gap: 2rem;
             width: 100%;
         }
 
-        /* 3. BOTÕES DE ATIVIDADE (AUMENTADOS) */
         .activity-card {
             background-color: var(--color-paper);
-            border-radius: 16px;
+            border-radius: 12px;
             text-decoration: none;
-            padding: 2rem;
+            padding: 1.5rem;
             transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid #f0f0f0;
             aspect-ratio: 1 / 1;
         }
                 
         .activity-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
             z-index: 20;
         }
 
         .card-image {
-            width: 70%; /* Gravura aumentada */
-            flex-grow: 1;
-            margin-bottom: 1.5rem;
+            width: 55%;
+            flex-shrink: 0;
+            margin-bottom: 1rem;
         }
 
         .card-image svg { width: 100%; height: 100%; }
         
         .card-text {
             font-family: var(--font-body);
-            font-weight: 700;
+            font-weight: 500;
             color: #343a40;
-            font-size: 1.5rem; /* Texto do botão aumentado */
+            font-size: 1.2rem;
             text-align: center;
-            line-height: 1.2;
         }
         
         /* 4. RODAPÉ E RESPONSIVIDADE */
         .site-footer {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            width: 100%;
-            padding: 1rem;
+            margin-top: 2rem;
             text-align: center;
             color: rgba(0,0,0,0.5);
             font-size: 0.9rem;
@@ -190,22 +183,25 @@
         }
         .site-footer a { color: rgba(0,0,0,0.7); }
         
-        @media (max-width: 1200px) {
-            body { height: auto; overflow: auto; }
-            .notebook {
-                grid-template-columns: 1fr;
+        @media (max-width: 1024px) {
+            body { height: auto; overflow: auto; justify-content: flex-start; }
+            .notebook-container {
+                flex-direction: column;
                 aspect-ratio: auto;
                 height: auto;
                 max-width: 700px;
-                margin: 2rem auto;
+                margin: 0 auto;
+                max-height: none;
             }
-            .notebook::before { display: none; }
-            .left-page { padding: 2rem; border-bottom: 2px dashed #ccc; }
+            .spiral { display: none; }
+            .left-page { border-radius: 10px 10px 0 0; border-bottom: 2px dashed var(--color-spiral); }
+            .right-page { border-radius: 0 0 10px 10px; }
+            .page { padding: 2rem; }
+            .left-page { padding-left: 2rem; }
             .left-page::before { display: none; }
-            .left-page h1 { font-size: 3rem; margin-top: 0; min-height: auto; white-space: normal; }
-            .subtitle .intro-line { font-size: 2rem; }
-            .subtitle .description { font-size: 1.6rem; }
-            .right-page { padding: 2rem; }
+            .left-page h1 { font-size: 2.5rem; white-space: normal; margin-top: 0; min-height: auto; }
+            .subtitle .intro-line { font-size: 1.6rem; }
+            .subtitle .description { font-size: 1.4rem; }
         }
 
         @media (max-width: 600px) {
@@ -213,13 +209,12 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
              }
-             .left-page h1 { font-size: 2.5rem; }
-             .card-text { font-size: 1.25rem; }
+             .card-text { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-    <main class="notebook fade-in">
+    <div class="notebook-container fade-in">
         <div class="page left-page">
             <h1 id="main-title">Sala de Aula Divertida</h1>
             <div class="subtitle">
@@ -230,6 +225,7 @@
                 </p>
             </div>
         </div>
+        <div class="spiral"></div>
         <div class="page right-page">
             <nav class="activities-grid">
                 <a href="https://maxhomsi.github.io/temposverbais/" class="activity-card">
@@ -267,7 +263,7 @@
                 </a>
             </nav>
         </div>
-    </main>
+    </div>
 
     <footer class="site-footer">
         <p>2025 | Feito com carinho pelo <a href="https://github.com/maxhomsi" target="_blank" rel="noopener noreferrer">Max</a>.</p>
