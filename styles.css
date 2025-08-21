@@ -1,12 +1,15 @@
 /* 1. FONTES E CONFIGURAÇÕES GLOBAIS */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Caveat:wght@700&display=swap');
 
 :root {
-    --font-title: 'Fredoka One', cursive;
-    --font-body: 'Roboto', sans-serif;
-    --color-chalkboard: #3d405b;
-    --color-chalk: #f4f1de;
-    --color-wood-frame: #81b29a;
+    --font-cursive: 'Caveat', cursive;
+    --font-body: 'Poppins', sans-serif;
+    --color-paper: #ffffff;
+    --color-cork: #e3d8c4;
+    --color-spiral-hole: #e0e0e0;
+    --color-lines-blue: #eaf2f8;
+    --color-lines-red: #fadbd8;
+    --shadow-strong: 0 10px 40px rgba(0,0,0,0.2);
     --transition-speed: 0.3s;
 }
 
@@ -16,164 +19,184 @@
     padding: 0;
 }
 
-html {
-    scroll-behavior: smooth;
-    font-size: 16px; /* Define uma base estável */
-}
+html { font-size: 16px; }
 
 body {
     font-family: var(--font-body);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Fundo escolar leve */
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2Y1ZjVlYSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjIiIGZpbGw9IiNhYmNkZTYiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjZjRiYzJhIi8+PHJlY3QgeD0iODAiIHk9IjYwIiB3aWR0aD0iNSIgaGVpZ-aD0iNSIByeD0iMiIgZmlsbD0iIzgyYTBjMiIvPjxwb2x5Z29uIHBvaW50cz0iMjAsNzAgMjUsODAgMTUsODAiIGZpbGw9IiNlMDc3NjIiLz48L3N2Zz4=');
-    background-size: 40px;
-    background-color: #f0ead2;
+    background-color: var(--color-cork);
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEUAAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAACMAAB+881GAAAAHHRSTlMAAAMA+PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PC02otJAAAAGUlEQVRIx+3MyQEAIAwDMCx7/48cxAE/GmuBl73eLwEAAAAAAACA/1/4ggYAAGO+HcsAAAAASUVORK5CYII=");
     transition: opacity 0.4s ease-in-out;
 }
 
-body.fade-out {
-    opacity: 0;
-}
+body.fade-out { opacity: 0; }
 
-/* 2. LAYOUT PRINCIPAL E LOUSA */
-.skip-link {
-    position: absolute;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #e76f51;
-    color: white;
-    padding: 10px 20px;
-    z-index: 1000;
-    transition: top 0.3s ease;
-    border-radius: 0 0 8px 8px;
-    font-weight: bold;
-}
-.skip-link:focus {
-    top: 0;
-}
-
-.classroom-container {
+.main-content {
     flex-grow: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 2rem 1rem; /* Padding horizontal para telas pequenas */
-}
-
-.blackboard {
-    background-color: var(--color-chalkboard);
-    color: var(--color-chalk);
-    border: 15px solid var(--color-wood-frame);
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(0,0,0,0.4);
-    padding: 2rem;
+    justify-content: center;
     width: 100%;
-    max-width: 900px;
-    text-align: center;
+    padding: 2rem 1rem;
+    min-height: 0;
 }
 
-.blackboard h1 {
-    font-family: var(--font-title);
-    font-size: 2.8rem; /* Tamanho mais controlado */
-    text-shadow: 2px 2px 0px #e76f51;
-    margin-bottom: 0.5rem;
+/* 2. LAYOUT DO CADERNO */
+.notebook-container {
+    display: flex;
+    width: 90vw;
+    max-width: 1600px;
+    height: 95%;
+    max-height: 85vh;
+    box-shadow: var(--shadow-strong);
+    border-radius: 8px;
 }
 
-.blackboard p {
-    font-size: 1.1rem; /* Tamanho mais controlado */
-    margin-bottom: 2rem;
-    opacity: 0.9;
+.page {
+    background-color: var(--color-paper);
+    background-image: repeating-linear-gradient(var(--color-paper) 0, var(--color-paper) 2.4rem, var(--color-lines-blue) 2.4rem, var(--color-lines-blue) 2.5rem);
+    background-size: 100% 2.5rem;
+    padding: 2rem 3rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
 }
 
+.left-page {
+    border-radius: 10px 0 0 10px;
+    padding-left: 4rem;
+    justify-content: flex-start;
+}
 
-/* 3. BOTÕES DE ATIVIDADE */
-.activities-nav {
+.left-page::before {
+    content: '';
+    position: absolute;
+    left: 3rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--color-lines-red);
+}
+
+.right-page {
+    border-radius: 0 10px 10px 0;
+}
+
+.spiral {
+    flex: 0 0 30px;
+    background: repeating-linear-gradient(var(--color-spiral-hole) 0px, var(--color-spiral-hole) 25px, transparent 25px, transparent 40px);
+    background-size: 100% 40px;
+}
+
+/* 3. CONTEÚDO DAS PÁGINAS */
+.left-page h1 {
+    font-family: var(--font-cursive);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    color: #111;
+    margin-top: 2rem;
+}
+
+.subtitle {
+    font-family: var(--font-cursive);
+    color: #333;
+    margin-top: 1rem;
+}
+
+.subtitle .intro-line {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+}
+
+.subtitle .description {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.4;
+    margin-top: 1rem;
+}
+
+.activities-grid {
     display: grid;
-    /* Grid responsivo e seguro */
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
 }
 
-.activity-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+.activity-card {
+    background-color: var(--color-paper);
+    border-radius: 12px;
     text-decoration: none;
-    padding: 1rem;
-    transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    padding: 1.5rem;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    min-height: 180px; /* Altura mínima para consistência */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+    aspect-ratio: 1 / 1;
+}
+            
+.activity-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-.activity-button:hover, .activity-button:focus {
-    transform: translateY(-8px) scale(1.03);
-    background-color: rgba(255, 255, 255, 0.2);
-    outline: none;
+.card-image {
+    width: 55%;
+    flex-shrink: 0;
+    margin-bottom: 1rem;
 }
 
-.button-image {
-    width: 100%;
-    height: 90px; /* Altura fixa para as imagens */
-    margin-bottom: 0.75rem;
-}
+.card-image svg { width: 100%; height: 100%; }
 
-.button-image svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Garante que o SVG caiba no espaço */
-}
-
-.button-text {
+.card-text {
     font-family: var(--font-body);
-    font-weight: 700;
-    color: var(--color-chalk);
-    font-size: 1rem;
-    margin-top: auto; /* Alinha o texto na base */
+    font-weight: 500;
+    color: #343a40;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    text-align: center;
 }
 
-
-/* 4. ANIMAÇÕES, RODAPÉ E MEDIA QUERIES */
-.fade-in {
-    animation: fadeInAnimation 0.8s ease forwards;
-    opacity: 0;
-}
-.fade-in:nth-child(1) { animation-delay: 0.2s; }
-.fade-in:nth-child(2) { animation-delay: 0.4s; }
-.fade-in:nth-child(3) { animation-delay: 0.6s; }
-
-@keyframes fadeInAnimation {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+/* 4. RODAPÉ E RESPONSIVIDADE */
 .site-footer {
+    flex-shrink: 0;
     padding: 1rem;
     text-align: center;
-    color: #6c584c;
+    color: rgba(0,0,0,0.5);
     font-size: 0.9rem;
-}
-
-.site-footer a {
-    color: #a98467;
     font-weight: bold;
-    text-decoration: none;
 }
-.site-footer a:hover {
-    text-decoration: underline;
+.site-footer a { color: rgba(0,0,0,0.7); }
+
+@media (max-width: 1024px) {
+    body { height: auto; overflow: auto; }
+    .main-content { padding: 1rem; }
+    .notebook-container {
+        flex-direction: column;
+        aspect-ratio: auto;
+        height: auto;
+        width: 100%;
+        max-width: 700px;
+        max-height: none;
+    }
+    .spiral { display: none; }
+    .left-page { border-radius: 10px 10px 0 0; border-bottom: 2px dashed var(--color-spiral); }
+    .right-page { border-radius: 0 0 10px 10px; }
+    .page { padding: 2rem; }
+    .left-page { padding-left: 2rem; }
+    .left-page::before { display: none; }
+    .left-page h1 { font-size: 2.5rem; white-space: normal; margin-top: 0; min-height: auto; }
+    .subtitle .intro-line { font-size: 1.6rem; }
+    .subtitle .description { font-size: 1.4rem; }
 }
 
-/* Ajustes para telas maiores */
-@media (min-width: 768px) {
-    .blackboard h1 {
-        font-size: 3.5rem;
-    }
-    .blackboard p {
-        font-size: 1.2rem;
+@media (max-width: 600px) {
+    .activities-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
